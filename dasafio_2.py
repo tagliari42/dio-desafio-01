@@ -29,34 +29,32 @@ def criar_usuario(nome, data_nascimento, cpf, endereço):
     global lista_usuarios
     novo_usuario = {"nome": nome,
                     "data_nascimento": data_nascimento,
-                    "CPF": cpf,
-                    "endereço": endereço,
-                    "contas": []
+                    "endereço": endereço
                     }
     chave_valor = {cpf: novo_usuario}
     lista_usuarios.append(chave_valor)
     print(f"\nCadastro realizado com sucesso. Seja bem vindo {novo_usuario["nome"]}!")
+    print(lista_usuarios)
 
 #Função para criar conta corrente
 def criar_conta(cpf):
     global numero_conta
     NUMERO_AGENCIA = "0001"
     nova_conta = {"Agência": NUMERO_AGENCIA,
+                  "Conta Corrente": numero_conta,
                   "Saldo": 0,
                   "Saques Realizados": 0}
-    conta_valor = {numero_conta: nova_conta}
-    lista_usuarios[numero_conta - 1][cpf]["contas"].append(conta_valor)
+    cpf_valor = {cpf: nova_conta}
+    lista_contas.append(cpf_valor)
+    print(f"Sua conta foi criada! Agência:{NUMERO_AGENCIA} Conta:{numero_conta}")
+    print(lista_contas)
     numero_conta += 1
-    print(f"Sua conta foi criada! Agência:{NUMERO_AGENCIA} Conta:{numero_conta - 1}")
 
 VALOR_LIMITE_DO_SAQUE = 500
-extrato = ""
 LIMITE_SAQUE_DIARIO = 3
-#TODO Criar valores indivuais de saldo e saque_realizados para cada conta disponível
-saques_realizados = 0
-saldo = 0
 
 lista_usuarios = []
+lista_contas = []
 numero_conta = 1
 
 menu_cadatro = """
@@ -80,8 +78,17 @@ while True:
     opcao_cadastro = input(menu_cadatro)
 
     if any(opcao_cadastro in usuario for usuario in lista_usuarios):
+        indice = None
+        for i, dicionario in enumerate(lista_contas):
+            if opcao_cadastro in dicionario:
+                indice = i
+                break
+        saldo = lista_contas[indice][opcao_cadastro]["Saldo"]
+        saques_realizados = lista_contas[indice][opcao_cadastro]["Saques Realizados"]
+        nome_usuario = lista_usuarios[indice][opcao_cadastro]["nome"]
+        extrato = ""
         while True:
-
+            print(f"Seja bem-vindo {nome_usuario}!")
             opcao_servico = input(menu_servicos)
 
             if opcao_servico.lower() == "d":
