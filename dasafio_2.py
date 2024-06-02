@@ -34,7 +34,6 @@ def criar_usuario(nome, data_nascimento, cpf, endereço):
     chave_valor = {cpf: novo_usuario}
     lista_usuarios.append(chave_valor)
     print(f"\nCadastro realizado com sucesso. Seja bem vindo {novo_usuario["nome"]}!")
-    print(lista_usuarios)
 
 #Função para criar conta corrente
 def criar_conta(cpf):
@@ -47,7 +46,6 @@ def criar_conta(cpf):
     cpf_valor = {cpf: nova_conta}
     lista_contas.append(cpf_valor)
     print(f"Sua conta foi criada! Agência:{NUMERO_AGENCIA} Conta:{numero_conta}")
-    print(lista_contas)
     numero_conta += 1
 
 VALOR_LIMITE_DO_SAQUE = 500
@@ -108,6 +106,7 @@ while True:
 
                 if (valor_saque <= VALOR_LIMITE_DO_SAQUE) and ((saldo - valor_saque) >= 0) and (saques_realizados < LIMITE_SAQUE_DIARIO):
                     saque(parametro_saldo = saldo, parametro_valor = valor_saque, parametro_extrato = extrato)
+                    saques_realizados = lista_contas[indice][opcao_cadastro]["Saques Realizados"] = saques_realizados
                 else:
                     print(f"""Não foi possível realizar o saque, confira os seguintes requisitos:
 ============================================================================================
@@ -118,6 +117,7 @@ while True:
 
             elif opcao_servico.lower() == "e":
                 gerar_extrato(saldo, parametro_extrato = extrato)
+                lista_contas[indice][opcao_cadastro]["Saldo"] = saldo
 
             elif opcao_servico.lower() == "q":
                 break
